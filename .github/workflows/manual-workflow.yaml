@@ -27,19 +27,18 @@ on:
 
 # job: この workflow で実行される処理を記載
 jobs:
-  # 「greet」という1つ目の job を用意
   greet:
-    # job 実行環境の設定
     runs-on: ubuntu-latest
 
-    # steps: 実行されるタスクを設定。上から順番に実行される
     steps:
-    # step1の処理名は 「Send greeting」
     - name: Send greeting
-      # run: 実行するコマンドを指定できる。
-      # 「Send greeting」のstepで実行するコマンド
       run: echo "Hello ${{ inputs.name }}"
-      
+
+  # 「farewell」という2つ目の job を用意
+  farewell:
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Send farewell
       if: ${{ inputs.is-set-farewell-message }}
       run: echo "Goodbye ${{ inputs.name }}"
