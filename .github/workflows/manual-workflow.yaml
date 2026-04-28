@@ -32,3 +32,6 @@ jobs:
       # run: 実行するコマンドを指定できる。
       # 「Send greeting」のstepで実行するコマンド
       run: echo "Hello ${{ inputs.name }}"
+      
+    - name: Send farewell
+      run: echo "Goodbye ${{ inputs.name }}"
