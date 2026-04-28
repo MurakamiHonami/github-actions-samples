@@ -29,6 +29,9 @@ on:
 jobs:
   greet:
     runs-on: ubuntu-latest
+    outputs:
+      # ${{ needs.greet.outputs.farewell_message }} で値が参照できる
+      farewell_message: ${{ steps.set-farewell-message.outputs.farewell-message }}
 
     steps:
     - name: Send greeting
@@ -48,9 +51,14 @@ jobs:
   # 「farewell」という2つ目の job を用意
   farewell:
     needs: greet
+
     runs-on: ubuntu-latest
 
     steps:
+    - name: Send farewell if is-set-farewell-message flag is true
+      if: ${{ inputs.is-set-farewell-message }}
+      # greet で設定した output の値を参照
+      run: echo "${{ needs.greet.outputs.farewell_message }}"
     - name: Send farewell
       if: ${{ inputs.is-set-farewell-message }}
       run: echo "Goodbye ${{ inputs.name }}"
