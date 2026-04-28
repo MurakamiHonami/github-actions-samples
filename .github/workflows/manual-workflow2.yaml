@@ -1,0 +1,44 @@
+# 
+# 手動実行するworkflowのサンプル
+# (job の依存関係)
+# 
+
+# workflow の名前です。実行時に表示される
+name: Manual workflow2
+
+# on: アクションが実行されるタイミングを指定
+on:
+  # 「workflow_dispatch」を指定すると、GitHub上で手動実行できる
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        default: 'World'
+        required: true
+        type: string
+      is-set-farewell-message:
+        description: 'Set farewell message'
+        required: false
+        type: boolean
+
+# job: この workflow で実行される処理を記載
+jobs:
+  # 「greet」という1つ目の job を用意
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send greeting
+      run: echo "Hello ${{ inputs.name }}"
+
+  # 「farewell」という2つ目の job を用意
+  farewell:
+    # このジョブが実行される前に「greet」jobの完了が必要
+    needs: greet
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send farewell
+      if: ${{ inputs.is-set-farewell-message }}
+      run: echo "Goodbye ${{ inputs.name }}"
