@@ -17,6 +17,13 @@ on:
         required: true
         # 入力のデータタイプ
         type: string
+      is-set-farewell-message:
+        # 'is-set-farewell-message' のチェックボックスの横に表示される文字
+        description: 'Set farewell message'
+        # 任意の入力項目
+        required: false
+        # 入力のデータタイプ
+        type: boolean
 
 # job: この workflow で実行される処理を記載
 jobs:
@@ -34,4 +41,5 @@ jobs:
       run: echo "Hello ${{ inputs.name }}"
       
     - name: Send farewell
+      if: ${{ inputs.is-set-farewell-message }}
       run: echo "Goodbye ${{ inputs.name }}"
