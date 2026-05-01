@@ -3,7 +3,7 @@ name: Validate Semantic Versioning
 on:
   push:
     tags:
-      - '*' # 全てのタグが push されたときに反応する
+      - 'v[0-9]+.[0-9]+.[0-9]+' # セマンティックバージョニングのタグがpushされた時だけ
   workflow_dispatch:
     inputs:
       version:
